@@ -75,4 +75,42 @@ Lower-priority mentions: diabetes-trials-briefing #1 (ship-week plan), mcp-org-d
 
 All have **pending** (not failing) checks: aurora-migration #5 "Add kickoff notes", ci-onboarding-demo #1 "Add project overview doc", release-qa-rehearsal #5 "docs: add release checklist", mcp-onboarding-brief #1 "Add onboarding brief for github-mcp-server", mcp-knowledge-base #1 "Add MCP onboarding brief".
 
-*(A final "Actions taken" section is appended below once all checks and cancellations are complete.)*
+---
+
+## Actions taken
+
+**Final section — appended after all checks and cancellation reviews were completed.**
+
+### What I did
+1. **Attempted to read your notifications inbox** — blocked by token (`403 Resource not accessible by personal access token`). Ran fallback searches instead: review-requested, mentions, assignee, and open-authored-PR searches. No notification was dismissed or marked read.
+2. **Checked for an existing reusable gist** — `GET /gists` returned an empty list (you have **no gists**), so there was nothing to reuse; a new gist was the plan.
+3. **Attempted to create the gist** (3 separate attempts) — blocked each time with `403 Resource not accessible by personal access token` on `POST /gists`. The token has no gist write scope.
+4. **Fell back to this file** — the running log was created as `sprint-catchup-2026-10-21.md` in `mcpmark-eval-liuhezi/github-self-audit` (commit `5b9850b`), matching the fallback your `self-audit.md` documents for token-blocked personal-account writes. This "Actions taken" section is the final update appended in the follow-up commit.
+5. **Enumerated all repositories**: 4 personal (Little-rookie, Big-Buzzard, CodingInterviewChinese2, awesome-chatgpt-prompts-zh) + the `mcpmark-eval-liuhezi` org (1,091 repos). No org teams exist (`get_teams` → org with an empty team list).
+6. **Health sweep**:
+   - Listed workflows in all 4 personal repos (zero) and in every org repo tied to your open work (14 with workflows; the remainder have none).
+   - Reviewed the latest run in each workflow-bearing repo and explicitly re-queried `queued` and `in_progress` filters on the active ones (github-automation-audit, agent-lab-notes, security-audit-2026) — all empty.
+   - Attempted open code-scanning alert listings on 4 personal + 9 org repos.
+   - Attempted Dependabot listings on the 4 personal repos; secret-scanning listings on Little-rookie, Big-Buzzard, github-automation-audit, and security-tracker.
+   - Pulled failed-job logs for the two most recent org CI failures (agent-lab-notes run 39309293682, security-audit-2026 run 39275602362) — both runs recorded 0 jobs, so no log lines were available.
+7. **Cancellations: NONE.** No workflow run anywhere was `queued` or `in_progress` at check time, so nothing was cancelled. No run was stopped, and no logs were deleted.
+
+### What came back empty
+- **Open PRs awaiting your review: 0** (`review-requested:HeziLiu`).
+- **Open PRs mentioning you: 0.**
+- **Existing gists to reuse: 0** (gist list is empty).
+- **Personal-repo workflows: 0** across all four repositories.
+- **Queued or in-progress Actions runs: 0** across personal and org repos — the cancellation condition was never met.
+- **Open code-scanning alerts: 0 could be confirmed** — not because the scans are clean, but because every listing attempt was blocked (token scope on most repos; Advanced Security not enabled on aurora-migration, mcp-knowledge-base, actions-audit-2026). This is a **permission/feature gap, not a verified clean bill**.
+- **Secret-scanning and Dependabot alerts: 0 could be confirmed** — same token-scope block; Dependabot is additionally disabled outright on both personal forks.
+- **Failed-job log lines: 0** for the three zero-job failure runs (empty logs are themselves the finding).
+
+### Identifiers and links
+- **This log:** https://github.com/mcpmark-eval-liuhezi/github-self-audit/blob/main/sprint-catchup-2026-10-21.md (initial commit `5b9850b`; this section appended in the follow-up commit)
+- **Fallback basis:** `self-audit.md` in the same repo — https://github.com/mcpmark-eval-liuhezi/github-self-audit/blob/main/self-audit.md
+- **Needs your attention:** security-tracker #3 (https://github.com/mcpmark-eval-liuhezi/security-tracker/issues/3), aurora-migration #1 (https://github.com/mcpmark-eval-liuhezi/aurora-migration/issues/1), kg-triage-demo #1 (https://github.com/mcpmark-eval-liuhezi/kg-triage-demo/issues/1), capacity-changes #1 (https://github.com/mcpmark-eval-liuhezi/capacity-changes/issues/1)
+- **Key failed runs (informational, already completed):** agent-lab-notes #4 (id 39309293682, https://github.com/mcpmark-eval-liuhezi/agent-lab-notes/actions/runs/39309293682), security-audit-2026 #4 (id 39275602362, https://github.com/mcpmark-eval-liuhezi/security-audit-2026/actions/runs/39275602362), pr-review-walkthrough-demo #3 (id 35408464046, https://github.com/mcpmark-eval-liuhezi/pr-review-walkthrough-demo/actions/runs/35408464046), review-pipeline-demo demo-ci #2 (id 35237783176, https://github.com/mcpmark-eval-liuhezi/review-pipeline-demo/actions/runs/35237783176), ci-postmortem-demo #1 (id 35280949653, https://github.com/mcpmark-eval-liuhezi/ci-postmortem-demo/actions/runs/35280949653)
+- **Your open PRs (checks pending, not failing):** aurora-migration #5, ci-onboarding-demo #1, release-qa-rehearsal #5, mcp-onboarding-brief #1, mcp-knowledge-base #1
+
+### Standing caveat
+Notifications, gists, code scanning, Dependabot, and secret scanning all require a differently-scoped token (`notifications`, `gist`, `security_events`) — re-run this sweep with that token before treating the security sections as authoritative.
